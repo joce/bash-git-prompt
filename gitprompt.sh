@@ -576,12 +576,15 @@ function updatePrompt() {
 
     # __add_status SOMETEXT
     __add_status() {
+      eval "STATUS=\"${STATUS}${1} \""
+    }
+    __add_status_no_space() {
       eval "STATUS=\"${STATUS}${1}\""
     }
 
     __chk_gitvar_status 'REMOTE'       '-n'
     if [[ "${GIT_CLEAN}" -eq 0 ]] || [[ "${GIT_PROMPT_CLEAN}" != "" ]]; then
-      __add_status        "${GIT_PROMPT_SEPARATOR}"
+      __add_status_no_space "${GIT_PROMPT_SEPARATOR}"
       __chk_gitvar_status 'STAGED'     '!= "0" && ${GIT_STAGED-} != "^"'
       __chk_gitvar_status 'CONFLICTS'  '!= "0"'
       __chk_gitvar_status 'CHANGED'    '!= "0"'
@@ -589,6 +592,7 @@ function updatePrompt() {
       __chk_gitvar_status 'STASHED'    '!= "0"'
       __chk_gitvar_status 'CLEAN'      '= "1"'   -
     fi
+    STATUS="$(echo -e "${STATUS}" | sed -e 's/[[:space:]]*$//')"
     __add_status        "${ResetColor}${GIT_PROMPT_SUFFIX}"
 
     NEW_PROMPT="$(gp_add_virtualenv_to_prompt)${PROMPT_START}$(${prompt_callback})${STATUS_PREFIX}${STATUS}${PROMPT_END}"

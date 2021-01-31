@@ -1,0 +1,29 @@
+# This is a theme for gitprompt.sh,
+# it uses the default openSUSE bash prompt style with exit status
+
+override_git_prompt_colors() {
+  function prompt_callback {
+    gp_set_window_title "$(dirs +0)"
+  }
+
+  GIT_PROMPT_THEME_NAME="Joce"
+  GIT_PROMPT_BRANCH="${Magenta}"
+  GIT_PROMPT_MASTER_BRANCH="${GIT_PROMPT_BRANCH}"
+
+  GIT_PROMPT_STAGED="${Magenta}●${ResetColor}"
+  GIT_PROMPT_CONFLICTS="${Red}✖${ResetColor}"
+  GIT_PROMPT_CHANGED="${Yellow}✚${ResetColor}"
+
+  GIT_PROMPT_UNTRACKED="${Cyan}…${ResetColor}"
+  GIT_PROMPT_STASHED="${Blue}⚑${ResetColor}"
+  GIT_PROMPT_CLEAN="${Green}✔${ResetColor}"
+
+  GIT_PROMPT_START_USER="${debian_chroot:+($debian_chroot)}${BoldGreen}\u@\h: ${BoldBlue}\w${ResetColor}"
+  GIT_PROMPT_START_ROOT="${debian_chroot:+($debian_chroot)}${BoldRed}\u@\h: ${BoldBlue}\w${ResetColor}"
+
+  GIT_PROMPT_END_USER="${ResetColor}\n\$ "
+  GIT_PROMPT_END_ROOT="${ResetColor}\n\$ "
+}
+
+reload_git_prompt_colors "Joce"
+
